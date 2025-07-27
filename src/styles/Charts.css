@@ -1,0 +1,74 @@
+.chart-container {
+  background-color: var(--color-surface-primary);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border);
+  transition: var(--transition-normal);
+}
+
+.chart-container:hover {
+  border-color: var(--color-border-light);
+}
+
+.chart-container__title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.chart-container__content {
+  height: 300px;
+}
+
+/* Chart styling */
+.chart-grid {
+  stroke: var(--color-border);
+}
+
+.chart-axis {
+  stroke: var(--color-text-muted);
+  fill: var(--color-text-muted);
+}
+
+.chart-tooltip {
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.chart-tooltip__label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.chart-tooltip__value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.chart-tooltip__id {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-family: 'Courier New', monospace;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .chart-container {
+    padding: var(--spacing-md);
+  }
+  
+  .chart-container__content {
+    height: 250px;
+  }
+  
+  .chart-container__title {
+    font-size: var(--font-size-base);
+  }
+}
