@@ -1,4 +1,3 @@
-import React from 'react';
 import { Wifi, WifiOff } from 'lucide-react';
 import '../styles/Header.css';
 

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/fee-market-comparator.iml" filepath="$PROJECT_DIR$/.idea/fee-market-comparator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/blockpulse.iml" filepath="$PROJECT_DIR$/.idea/blockpulse.iml" />
     </modules>
   </component>
 </project>

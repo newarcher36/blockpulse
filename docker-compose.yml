@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  fee-market-frontend:
+  block-pulse-frontend:
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,7 +10,7 @@ services:
     environment:
       - NODE_ENV=production
     networks:
-      - fee-market-network
+      - block-pulse-network
     depends_on:
       - spring-boot-backend
 
@@ -23,10 +23,10 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
-      - fee-market-network
+      - block-pulse-network
 
 networks:
-  fee-market-network:
+  block-pulse-network:
     driver: bridge
 
 volumes:

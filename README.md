@@ -35,8 +35,8 @@ docker-compose up -d
 
 2. Or build and run the Docker image directly:
 ```bash
-docker build -t fee-market-comparator .
-docker run -p 3000:80 fee-market-comparator
+docker build -t blockpulse .
+docker run -p 3000:80 blockpulse
 ```
 
 ## Spring Boot Integration
