@@ -1,3 +1,5 @@
+import React from "react";
+
 interface Transaction {
     readonly id: string;
     readonly feeRate: number;
@@ -53,6 +55,23 @@ interface CustomTooltipProps {
     }[];
 }
 
+interface StatCardProps {
+    title: string;
+    value: string | number;
+    unit?: string;
+    icon: React.ElementType;
+    colorClass: string;
+}
+
+interface StatsCardsProps {
+    stats: {
+        avgFeePerByte: number;
+        medianFeePerByte: number;
+        totalTransactions: number;
+        outliersCount: number;
+    };
+}
+
 export type {
     TransactionItemProps,
     RecentTransactionsProps,
@@ -62,5 +81,7 @@ export type {
     CustomTooltipProps,
     OutliersChartProps,
     Outlier,
-    OutlierChartData
+    OutlierChartData,
+    StatCardProps,
+    StatsCardsProps
 };
