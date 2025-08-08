@@ -1,4 +1,4 @@
-import {Outlier, OutlierChartData, OutlierTransaction, Transaction, WindowStats} from "./models";
+import {OutlierChartData, OutlierTransaction, Transaction, WindowStats} from "./models";
 import React from "react";
 
 interface ChartsGridProps {
@@ -6,7 +6,7 @@ interface ChartsGridProps {
     outliers: OutlierTransaction[];
 }
 
-interface FeeChartProps {
+interface TransactionProps {
     transactions: Transaction[];
 }
 
@@ -14,18 +14,8 @@ interface TransactionItemProps {
     transaction: Transaction;
 }
 
-interface RecentTransactionsProps {
-    transactions: Transaction[];
-}
-
-interface PatternsGridProps {
-    patterns: any[];
-    transactions: any[];
-    stats: WindowStats;
-}
-
 interface OutliersChartProps {
-    outliers: Outlier[];
+    outliers: OutlierTransaction[];
 }
 
 interface CustomTooltipProps {
@@ -47,14 +37,18 @@ interface StatsCardsProps {
     stats: WindowStats;
 }
 
+interface HeaderProps {
+    isConnected: boolean
+    connectionStatus: string
+}
+
 export type {
     ChartsGridProps,
     TransactionItemProps,
-    RecentTransactionsProps,
-    PatternsGridProps,
     OutliersChartProps,
     CustomTooltipProps,
     StatCardProps,
     StatsCardsProps,
-    FeeChartProps,
+    TransactionProps,
+    HeaderProps,
 };

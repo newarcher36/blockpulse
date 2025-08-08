@@ -1,7 +1,7 @@
 import React from 'react';
 import {AlertTriangle, Zap, TrendingUp, Activity} from 'lucide-react';
 import '../styles/StatsCards.css';
-import {StatCardProps, StatsCardsProps} from "../model/models";
+import {StatCardProps, StatsCardsProps} from '../model/props';
 
 const StatCard: React.FC<StatCardProps> = ({title, value, unit, icon: Icon, colorClass}) => (
     <div className="stat-card">

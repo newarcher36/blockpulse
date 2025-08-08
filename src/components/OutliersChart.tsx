@@ -1,14 +1,14 @@
 import React from 'react';
 import {CartesianGrid, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis} from 'recharts';
 import '../styles/Charts.css';
-import {CustomTooltipProps, OutliersChartProps} from '../model/models';
+import {CustomTooltipProps, OutliersChartProps} from '../model/props';
 
 const OutliersChart: React.FC<OutliersChartProps> = ({outliers}) => {
-    const outlierChartData = outliers.map((tx, index) => ({
+    const outlierChartData = outliers.map((o, index) => ({
         index,
-        feePerByte: tx.feePerByte,
-        size: tx.size,
-        id: tx.id
+        id: o.id,
+        feePerByte: o.feePerVByte,
+        size: o.size,
     }));
 
     const CustomTooltip: React.FC<CustomTooltipProps> = ({active, payload}) => {

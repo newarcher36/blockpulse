@@ -1,25 +1,27 @@
 import '../styles/RecentTransactions.css';
-import {RecentTransactionsProps, TransactionItemProps} from "../model/models";
+import React from "react";
+import {TransactionItemProps, TransactionProps} from "../model/props";
+import {FeeClassification} from "../model/models";
 
 const TransactionItem: React.FC<TransactionItemProps> = ({transaction}) => {
-    const getFeeColorClass = (feeRate: number): string => {
-        // if (feeRate > avgFeePerByte * 2) return 'transaction-item__fee--high';
-        // if (feeRate > avgFeePerByte) return 'transaction-item__fee--medium';
-        return 'transaction-item__fee--low';
+    const feeColorMap: Record<FeeClassification, string> = {
+        [FeeClassification.EXPENSIVE]: 'transaction-item__fee--high',
+        [FeeClassification.NORMAL]: 'transaction-item__fee--medium',
+        [FeeClassification.CHEAP]: 'transaction-item__fee--low',
     };
 
     return (
         <div className="transaction-item">
             <div className="transaction-item__info">
                 <p className="transaction-item__id">
-                    {transaction.hash}
+                    {transaction.id}
                 </p>
                 <p className="transaction-item__size">
                     {transaction.size} bytes
                 </p>
             </div>
             <div className="transaction-item__details">
-                <p className={`transaction-item__fee ${getFeeColorClass(transaction.feePerVByte)}`}>
+                <p className={`transaction-item__fee ${feeColorMap[transaction.feeClassification] || ''}`}>
                     {transaction.feePerVByte.toFixed(2)} sat/byte
                 </p>
                 <p className="transaction-item__timestamp">
@@ -30,7 +32,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({transaction}) => {
     );
 };
 
-const RecentTransactions: React.FC<RecentTransactionsProps> = ({transactions}) => {
+const RecentTransactions: React.FC<TransactionProps> = ({transactions}) => {
     return (
         <div className="recent-transactions">
             <h3 className="recent-transactions__title">Recent Transactions</h3>

@@ -23,12 +23,6 @@ interface WindowStats {
     outliersCount: number;
 }
 
-interface Outlier {
-    id: string;
-    feePerByte: number;
-    size: number;
-}
-
 interface OutlierChartData {
     index: number;
     feePerByte: number;
@@ -36,17 +30,16 @@ interface OutlierChartData {
     id: string;
 }
 
-enum FeeClassification {
+export enum FeeClassification {
     CHEAP, NORMAL, EXPENSIVE
 }
 
-enum InsightType {
+export enum InsightType {
     SURGE, FEE_WAR
 }
 
 export type {
     Transaction,
-    Outlier,
     OutlierChartData,
     OutlierTransaction,
     WindowStats,

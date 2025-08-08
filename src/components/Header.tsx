@@ -1,11 +1,14 @@
-import { Wifi, WifiOff } from 'lucide-react';
+import {Wifi, WifiOff} from 'lucide-react';
 import '../styles/Header.css';
+import React from "react";
+import {HeaderProps} from "../model/props";
 
-const Header = ({ isConnected, connectionStatus }) => {
+
+const Header: React.FC<HeaderProps> = ({ isConnected, connectionStatus }) => {
   return (
     <header className="header">
       <h1 className="header__title">Fee Market Comparator</h1>
-      
+
       <div className="header__status">
         <div className={`connection-indicator ${isConnected ? 'connection-indicator--connected' : 'connection-indicator--disconnected'}`}>
           {isConnected ? (

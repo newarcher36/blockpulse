@@ -1,9 +1,9 @@
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import '../styles/Charts.css';
 import React from "react";
-import {FeeChartProps} from "../model/props";
+import {TransactionProps} from "../model/props";
 
-const FeeChart: React.FC<FeeChartProps> = ({transactions}) => {
+const FeeChart: React.FC<TransactionProps> = ({transactions}) => {
   const chartData = transactions.map((tx, index) => ({
     index,
     feePerByte: tx.feePerVByte,

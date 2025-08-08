@@ -2,15 +2,15 @@ import React from 'react';
 import PatternDetection from './PatternDetection';
 import RecentTransactions from './RecentTransactions';
 import '../styles/PatternsGrid.css';
-import {PatternsGridProps} from "../model/models";
+import {TransactionProps} from "../model/props";
 
-const PatternsGrid: React.FC<PatternsGridProps> = ({patterns, transactions, stats}) => {
+const ListsGrid: React.FC<TransactionProps> = ({transactions}) => {
     return (
         <div className="patterns-grid">
-            <PatternDetection patterns={patterns}/>
+            <PatternDetection patterns={transactions}/>
             <RecentTransactions transactions={transactions}/>
         </div>
     );
 };
 
-export default PatternsGrid;
+export default ListsGrid;

@@ -1,9 +1,10 @@
 import React from 'react';
 import '../styles/PatternDetection.css';
+import {TransactionProps} from "../model/props";
 
-const PatternItem = ({ pattern }) => {
+const PatternItem: React.FC<TransactionProps>  = ({ transactions }) => {
   const severityClass = `pattern-item--${pattern.severity}`;
-  
+
   return (
     <div className={`pattern-item ${severityClass}`}>
       <div className="pattern-item__header">
