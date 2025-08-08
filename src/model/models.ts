@@ -1,44 +1,32 @@
-import React from "react";
-
 interface Transaction {
-    readonly id: string;
-    readonly feeRate: number;
-    readonly size: number;
-    readonly hash: string;
-    readonly timestamp: number;
+    readonly id: string
+    readonly feePerVByte: number
+    readonly totalFee: number
+    readonly size: number
+    readonly timestamp: number
+    readonly insights: Set<InsightType>
+    readonly feeClassification: FeeClassification
+    readonly isOutlier: boolean
+    readonly windowStats: WindowStats
 }
 
-interface Stats {
+interface OutlierTransaction {
+    readonly id: string
+    readonly feePerVByte: number
+    readonly size: number
+}
+
+interface WindowStats {
     avgFeePerByte: number;
-}
-
-interface TransactionItemProps {
-    transaction: Transaction;
-}
-
-interface RecentTransactionsProps {
-    transactions: Transaction[];
-}
-
-interface PatternsGridProps {
-    patterns: any[];
-    transactions: any[];
-    stats: {
-        avgFeePerByte: number;
-        medianFeePerByte: number;
-        totalTransactions: number;
-        outliersCount: number;
-    };
+    medianFeePerByte: number;
+    totalTransactions: number;
+    outliersCount: number;
 }
 
 interface Outlier {
     id: string;
     feePerByte: number;
     size: number;
-}
-
-interface OutliersChartProps {
-    outliers: Outlier[];
 }
 
 interface OutlierChartData {
@@ -48,40 +36,18 @@ interface OutlierChartData {
     id: string;
 }
 
-interface CustomTooltipProps {
-    active?: boolean;
-    payload?: {
-        payload: OutlierChartData;
-    }[];
+enum FeeClassification {
+    CHEAP, NORMAL, EXPENSIVE
 }
 
-interface StatCardProps {
-    title: string;
-    value: string | number;
-    unit?: string;
-    icon: React.ElementType;
-    colorClass: string;
-}
-
-interface StatsCardsProps {
-    stats: {
-        avgFeePerByte: number;
-        medianFeePerByte: number;
-        totalTransactions: number;
-        outliersCount: number;
-    };
+enum InsightType {
+    SURGE, FEE_WAR
 }
 
 export type {
-    TransactionItemProps,
-    RecentTransactionsProps,
     Transaction,
-    PatternsGridProps,
-    Stats,
-    CustomTooltipProps,
-    OutliersChartProps,
     Outlier,
     OutlierChartData,
-    StatCardProps,
-    StatsCardsProps
+    OutlierTransaction,
+    WindowStats,
 };

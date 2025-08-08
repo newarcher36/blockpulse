@@ -19,8 +19,8 @@ const TransactionItem: React.FC<TransactionItemProps> = ({transaction}) => {
                 </p>
             </div>
             <div className="transaction-item__details">
-                <p className={`transaction-item__fee ${getFeeColorClass(transaction.feeRate)}`}>
-                    {transaction.feeRate.toFixed(2)} sat/byte
+                <p className={`transaction-item__fee ${getFeeColorClass(transaction.feePerVByte)}`}>
+                    {transaction.feePerVByte.toFixed(2)} sat/byte
                 </p>
                 <p className="transaction-item__timestamp">
                     {new Date(transaction.timestamp).toLocaleTimeString()}

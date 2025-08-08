@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
+import {CartesianGrid, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis} from 'recharts';
 import '../styles/Charts.css';
 import {CustomTooltipProps, OutliersChartProps} from '../model/models';
 

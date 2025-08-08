@@ -1,10 +1,12 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import '../styles/Charts.css';
+import React from "react";
+import {FeeChartProps} from "../model/props";
 
-const FeeChart = ({ transactions }) => {
-  const chartData = transactions.slice(-50).map((tx, index) => ({
+const FeeChart: React.FC<FeeChartProps> = ({transactions}) => {
+  const chartData = transactions.map((tx, index) => ({
     index,
-    feePerByte: tx.feePerByte,
+    feePerByte: tx.feePerVByte,
     size: tx.size,
     timestamp: new Date(tx.timestamp).toLocaleTimeString()
   }));

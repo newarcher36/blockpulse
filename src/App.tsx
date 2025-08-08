@@ -3,11 +3,13 @@ import Header from './components/Header';
 import {useWebSocket} from './hooks/useWebSocket';
 import './styles/App.css';
 import RecentTransactions from './components/RecentTransactions';
-import {Transaction} from "./model/models";
+import {OutlierTransaction, Transaction} from "./model/models";
+import ChartsGrid from './components/ChartsGrid';
 
-const FeeMarketComparator = () => {
-    const [transactions, setTransactions] = useState([]);
-    // const [outliers, setOutliers] = useState([]);
+const BlockchainFeeAnalyzer = () => {
+    const MAX_OUTLIERS = 20;
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [outliers, setOutliers] = useState<OutlierTransaction[]>([]);
     // const [patterns, setPatterns] = useState([]);
     // const [stats, setStats] = useState({
     //   avgFeePerByte: 0,
@@ -16,35 +18,33 @@ const FeeMarketComparator = () => {
     //   outliersCount: 0
     // });
 
+    const handleWebSocketMessage = (data: Transaction) => {
+        updateTransactions(data);
+    }
+
     const {isConnected, connectionStatus} = useWebSocket({
         url: 'ws://localhost:8080/ws/topic/transactions',
         onMessage: handleWebSocketMessage
     });
 
-    // Handle WebSocket messages
-    function handleWebSocketMessage(data: Transaction) {
-        updateTransactions(data);
-        // switch (data.type) {
-        //   case 'TRANSACTION_UPDATE':
-        //     updateTransactions(data.transactions);
-        //     break;
-        //   case 'OUTLIER_DETECTED':
-        //     setOutliers(prev => [...prev.slice(-49), data.outlier]);
-        //     break;
-        //   case 'PATTERN_DETECTED':
-        //     setPatterns(prev => [...prev.slice(-9), data.pattern]);
-        //     break;
-        //   case 'STATS_UPDATE':
-        //     setStats(data.stats);
-        //     break;
-        //   default:
-        //     console.log('Unknown message type:', data.type);
-        // }
-    }
-
     const updateTransactions = (newTx: Transaction) => {
+        setOutliers(prev => {
+            if (newTx.isOutlier) {
+                const outlier: OutlierTransaction = {id: newTx.id, feePerVByte: newTx.feePerVByte, size: newTx.size}
+                const updatedOutliers = [...prev, outlier]
+                if (updatedOutliers.length > MAX_OUTLIERS) {
+                    return updatedOutliers.slice(-MAX_OUTLIERS)
+                }
+            }
+            return prev;
+        });
         setTransactions(prev => {
-            const updated = [...prev, ...newTransactions].slice(-1000);
+            const updated = [...prev, newTx];
+
+            if (updated.length > 100) {
+                return updated.slice(-100);
+            }
+            console.log(updated);
             return updated;
         });
     };
@@ -59,10 +59,10 @@ const FeeMarketComparator = () => {
 
                 {/*<StatsCards stats={stats} />*/}
 
-                {/*<ChartsGrid */}
-                {/*  transactions={transactions} */}
-                {/*  outliers={outliers} */}
-                {/*/>*/}
+                <ChartsGrid
+                    transactions={transactions}
+                    outliers={outliers}
+                />
 
                 <div className="patterns-grid">
                     {/*<PatternDetection patterns={patterns}/>*/}
@@ -73,4 +73,4 @@ const FeeMarketComparator = () => {
     );
 };
 
-export default FeeMarketComparator;
+export default BlockchainFeeAnalyzer;
