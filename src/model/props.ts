@@ -1,28 +1,9 @@
-import {OutlierChartData, OutlierTransaction, Transaction, WindowStats} from "./models";
+import {OutlierChartData, OutlierTransaction, Pattern, Transaction, WindowStats} from "./models";
 import React from "react";
 
-interface ChartsGridProps {
-    transactions: Transaction[];
-    outliers: OutlierTransaction[];
-}
-
-interface TransactionProps {
-    transactions: Transaction[];
-}
-
-interface TransactionItemProps {
-    transaction: Transaction;
-}
-
-interface OutliersChartProps {
-    outliers: OutlierTransaction[];
-}
-
-interface CustomTooltipProps {
-    active?: boolean;
-    payload?: {
-        payload: OutlierChartData;
-    }[];
+interface HeaderProps {
+    isConnected: boolean
+    connectionStatus: string
 }
 
 interface StatCardProps {
@@ -37,9 +18,42 @@ interface StatsCardsProps {
     stats: WindowStats;
 }
 
-interface HeaderProps {
-    isConnected: boolean
-    connectionStatus: string
+interface ChartsGridProps {
+    transactions: Transaction[];
+    outliers: OutlierTransaction[];
+}
+
+interface OutliersChartProps {
+    outliers: OutlierTransaction[];
+}
+
+interface TransactionProps {
+    transactions: Transaction[];
+}
+
+interface ListsGridProps{
+    transactions: Transaction[];
+    patterns: Pattern[];
+}
+
+interface TransactionItemProps {
+    transaction: Transaction;
+}
+
+interface PatternsProps {
+    patterns: Pattern[]
+}
+
+interface CustomTooltipProps {
+    active?: boolean;
+    payload?: {
+        payload: OutlierChartData;
+    }[];
+}
+
+interface UseWebSocketProps {
+    url: string;
+    onMessage: (data: any) => void;
 }
 
 export type {
@@ -51,4 +65,7 @@ export type {
     StatsCardsProps,
     TransactionProps,
     HeaderProps,
+    PatternsProps,
+    ListsGridProps,
+    UseWebSocketProps
 };

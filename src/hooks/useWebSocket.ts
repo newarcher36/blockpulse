@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import {useEffect, useRef, useState} from 'react';
+import {UseWebSocketProps} from '../model/props';
 
-export const useWebSocket = ({ url, onMessage }) => {
+export const useWebSocket = ({ url, onMessage }: UseWebSocketProps) => {
   const [isConnected, setIsConnected] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('Disconnected');
-  const wsRef = useRef(null);
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     const connectWebSocket = () => {
@@ -53,15 +54,8 @@ export const useWebSocket = ({ url, onMessage }) => {
     };
   }, [url, onMessage]);
 
-  const sendMessage = (message) => {
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify(message));
-    }
-  };
-
   return {
     isConnected,
     connectionStatus,
-    sendMessage
   };
 };

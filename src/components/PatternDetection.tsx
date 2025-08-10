@@ -1,21 +1,20 @@
 import React from 'react';
 import '../styles/PatternDetection.css';
-import {TransactionProps} from "../model/props";
+import {PatternsProps} from "../model/props";
+import {Pattern} from "../model/models";
 
-const PatternItem: React.FC<TransactionProps>  = ({ transactions }) => {
-  const severityClass = `pattern-item--${pattern.severity}`;
-
+const PatternItem = ({ pattern }: { pattern: Pattern }) => {
   return (
-    <div className={`pattern-item ${severityClass}`}>
+    <div className={`pattern-item--medium`}>
       <div className="pattern-item__header">
         <h4 className="pattern-item__type">
-          {pattern.type.replace('_', ' ')}
+          {pattern.type}
         </h4>
-        <span className={`pattern-item__severity pattern-item__severity--${pattern.severity}`}>
-          {pattern.severity}
+        <span className={`pattern-item__severity pattern-item__severity--medium`}>
+          MEDIUM
         </span>
       </div>
-      <p className="pattern-item__message">{pattern.message}</p>
+      <p className="pattern-item__message">{pattern.metric}</p>
       <p className="pattern-item__timestamp">
         {new Date(pattern.timestamp).toLocaleTimeString()}
       </p>
@@ -23,7 +22,7 @@ const PatternItem: React.FC<TransactionProps>  = ({ transactions }) => {
   );
 };
 
-const PatternDetection = ({ patterns }) => {
+const PatternDetection: React.FC<PatternsProps> = ({ patterns }) => {
   return (
     <div className="pattern-detection">
       <h3 className="pattern-detection__title">Pattern Detection</h3>

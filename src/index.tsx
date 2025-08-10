@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {ErrorBoundary} from 'react-error-boundary';
 import './styles/index.css';
 import App from './App';
-import {reportWebVitals} from "../reportWebVitals";
+import {reportWebVitals} from "./reportWebVitals";
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

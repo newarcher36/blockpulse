@@ -1,7 +1,7 @@
 import '../styles/RecentTransactions.css';
 import React from "react";
 import {TransactionItemProps, TransactionProps} from "../model/props";
-import {FeeClassification} from "../model/models";
+import {FeeClassification} from "../model/enums";
 
 const TransactionItem: React.FC<TransactionItemProps> = ({transaction}) => {
     const feeColorMap: Record<FeeClassification, string> = {

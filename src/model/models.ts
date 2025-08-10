@@ -1,10 +1,12 @@
+import {FeeClassification, PatternType} from "./enums"
+
 interface Transaction {
     readonly id: string
     readonly feePerVByte: number
     readonly totalFee: number
     readonly size: number
     readonly timestamp: number
-    readonly insights: Set<InsightType>
+    readonly patternTypes: Set<PatternType>
     readonly feeClassification: FeeClassification
     readonly isOutlier: boolean
     readonly windowStats: WindowStats
@@ -30,12 +32,10 @@ interface OutlierChartData {
     id: string;
 }
 
-export enum FeeClassification {
-    CHEAP, NORMAL, EXPENSIVE
-}
-
-export enum InsightType {
-    SURGE, FEE_WAR
+interface Pattern {
+    type: PatternType;
+    metric: string;
+    timestamp: number;
 }
 
 export type {
@@ -43,4 +43,5 @@ export type {
     OutlierChartData,
     OutlierTransaction,
     WindowStats,
+    Pattern
 };

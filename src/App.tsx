@@ -2,17 +2,16 @@ import React, {useState} from 'react';
 import Header from './components/Header';
 import {useWebSocket} from './hooks/useWebSocket';
 import './styles/App.css';
-import RecentTransactions from './components/RecentTransactions';
-import {OutlierTransaction, Transaction} from "./model/models";
+import {OutlierTransaction, Transaction, Pattern} from "./model/models";
 import ChartsGrid from './components/ChartsGrid';
 import WindowStatsCards from "./components/StatsCards";
 import ListsGrid from "./components/ListsGrid";
 
 const BlockchainFeeAnalyzer = () => {
-    const MAX_OUTLIERS = 20;
+    const MAX_RETENTION_ITEMS = 20;
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [outliers, setOutliers] = useState<OutlierTransaction[]>([]);
-    const [patterns, setPatterns] = useState([]);
+    const [patterns, setPatterns] = useState<Pattern[]>([]);
     const [stats, setStats] = useState({
       avgFeePerByte: 0,
       medianFeePerByte: 0,
@@ -39,10 +38,10 @@ const BlockchainFeeAnalyzer = () => {
         })
         setOutliers(prev => {
             if (newTx.isOutlier) {
-                const outlier: OutlierTransaction = {id: newTx.id, feePerVByte: newTx.feePerVByte, size: newTx.size}
-                const updatedOutliers = [...prev, outlier]
-                if (updatedOutliers.length > MAX_OUTLIERS) {
-                    return updatedOutliers.slice(-MAX_OUTLIERS)
+                const newOutlier: OutlierTransaction = {id: newTx.id, feePerVByte: newTx.feePerVByte, size: newTx.size}
+                const updatedOutliers = [...prev, newOutlier]
+                if (updatedOutliers.length > MAX_RETENTION_ITEMS) {
+                    return updatedOutliers.slice(-MAX_RETENTION_ITEMS)
                 }
             }
             return prev
@@ -50,11 +49,19 @@ const BlockchainFeeAnalyzer = () => {
         setTransactions(prev => {
             const updated = [...prev, newTx];
 
-            if (updated.length > 100) {
-                return updated.slice(-100);
+            if (updated.length > MAX_RETENTION_ITEMS) {
+                return updated.slice(-MAX_RETENTION_ITEMS);
             }
             return updated;
         });
+        setPatterns(prev => {
+            newTx.patternTypes.forEach(t => {
+                const newPattern: Pattern = {type: t, metric: "", timestamp: newTx.timestamp}
+                return [...prev, newPattern].slice(-MAX_RETENTION_ITEMS)
+            })
+
+            return prev
+        })
     };
 
     return (
@@ -63,7 +70,7 @@ const BlockchainFeeAnalyzer = () => {
                 <Header isConnected={isConnected} connectionStatus={connectionStatus}/>
                 <WindowStatsCards stats={stats} />
                 <ChartsGrid transactions={transactions} outliers={outliers}/>
-                <ListsGrid transactions={transactions}/>
+                <ListsGrid transactions={transactions} patterns={patterns}/>
             </div>
         </div>
     );
