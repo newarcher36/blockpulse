@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Header from './components/Header';
-import {useWebSocket} from './hooks/useWebSocket';
+import {useSSE} from './hooks/useSSE';
 import './styles/App.css';
 import {OutlierTransaction, Transaction, Pattern} from "./model/models";
 import ChartsGrid from './components/ChartsGrid';
@@ -19,13 +19,13 @@ const BlockchainFeeAnalyzer = () => {
       outliersCount: 0
     });
 
-    const handleWebSocketMessage = (data: Transaction) => {
+    const handleSSEMessage = (data: Transaction) => {
         updateTransactions(data);
     }
 
-    const {isConnected, connectionStatus} = useWebSocket({
-        url: 'ws://localhost:8080/ws/topic/transactions',
-        onMessage: handleWebSocketMessage
+    const {isConnected, connectionStatus} = useSSE({
+        url: 'http://localhost:8080/api/v1/transactions/stream',
+        onMessage: handleSSEMessage
     });
 
     const updateTransactions = (newTx: Transaction) => {
