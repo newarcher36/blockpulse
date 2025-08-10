@@ -51,7 +51,7 @@ interface CustomTooltipProps {
     }[];
 }
 
-interface UseWebSocketProps {
+interface UseSSEProps {
     url: string;
     onMessage: (data: any) => void;
 }
@@ -67,5 +67,5 @@ export type {
     HeaderProps,
     PatternsProps,
     ListsGridProps,
-    UseWebSocketProps
+    UseSSEProps
 };

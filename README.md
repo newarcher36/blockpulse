@@ -1,10 +1,10 @@
 # Fee Market Comparator
 
-A real-time React application for analyzing blockchain transaction fees with WebSocket integration to Spring Boot backend.
+A real-time React application for analyzing blockchain transaction fees with Server-Sent Events (SSE) integration to a Spring Boot backend.
 
 ## Features
 
-- **Real-time fee analysis** with WebSocket connectivity
+- **Real-time fee analysis** with SSE connectivity
 - **Outlier detection** using statistical methods
 - **Pattern recognition** for fee surges, wars, and block congestion
 - **Interactive charts** and visual dashboards
@@ -41,7 +41,7 @@ docker run -p 3000:80 blockpulse
 
 ## Spring Boot Integration
 
-The app expects WebSocket messages at `ws://localhost:8080/ws/fee-market` with the following format:
+The app listens for SSE events at `http://localhost:8080/api/v1/transactions/stream` with the following format:
 
 ```json
 {
