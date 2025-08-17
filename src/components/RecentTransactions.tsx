@@ -14,7 +14,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({transaction}) => {
         <div className="transaction-item">
             <div className="transaction-item__info">
                 <p className="transaction-item__id">
-                    {transaction.id}
+                    {transaction.id.substring(0, 30)}...
                 </p>
                 <p className="transaction-item__size">
                     {transaction.size} bytes

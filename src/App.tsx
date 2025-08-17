@@ -1,67 +1,75 @@
 import React, {useState} from 'react';
 import Header from './components/Header';
-import {useSSE} from './hooks/useSSE';
 import './styles/App.css';
-import {OutlierTransaction, Transaction, Pattern} from "./model/models";
+import {OutlierTransaction, Transaction, Pattern, WindowSnapshot} from "./model/models";
 import ChartsGrid from './components/ChartsGrid';
 import WindowStatsCards from "./components/StatsCards";
 import ListsGrid from "./components/ListsGrid";
+import useSSE from "./hooks/useSSE";
 
 const BlockchainFeeAnalyzer = () => {
     const MAX_RETENTION_ITEMS = 20;
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [outliers, setOutliers] = useState<OutlierTransaction[]>([]);
     const [patterns, setPatterns] = useState<Pattern[]>([]);
-    const [stats, setStats] = useState({
-      avgFeePerByte: 0,
-      medianFeePerByte: 0,
-      totalTransactions: 0,
+    const [stats, setStats] = useState<WindowSnapshot>({
+      avgFeePerVByte: 0,
+      medianFeePerVByte: 0,
+      transactionsCount: 0,
       outliersCount: 0
     });
 
-    const handleSSEMessage = (data: Transaction) => {
-        updateTransactions(data);
+    const handleSSEMessage = (newTransaction: Transaction) => {
+        updateTransactions(newTransaction);
     }
 
-    const {isConnected, connectionStatus} = useSSE({
-        url: 'http://localhost:8080/api/v1/transactions/stream',
+    const { isConnected, connectionStatus, connect, disconnect } = useSSE({
+        url: "/api/v1/transactions/stream",
         onMessage: handleSSEMessage
     });
 
+    // const handleReconnect = () => {
+    //     console.log('Reconnecting...');
+    //     connect();
+    // };
+    //
+    // const handleDisconnect = () => {
+    //     console.log('Disconnected...');
+    //     disconnect();
+    // };
+
     const updateTransactions = (newTx: Transaction) => {
-        setStats(prevState => {
-            prevState.totalTransactions = newTx.windowStats.totalTransactions;
-            prevState.outliersCount = newTx.windowStats.outliersCount;
-            prevState.avgFeePerByte = newTx.windowStats.avgFeePerByte;
-            prevState.medianFeePerByte = newTx.windowStats.medianFeePerByte;
-            return prevState
-        })
-        setOutliers(prev => {
-            if (newTx.isOutlier) {
-                const newOutlier: OutlierTransaction = {id: newTx.id, feePerVByte: newTx.feePerVByte, size: newTx.size}
-                const updatedOutliers = [...prev, newOutlier]
-                if (updatedOutliers.length > MAX_RETENTION_ITEMS) {
-                    return updatedOutliers.slice(-MAX_RETENTION_ITEMS)
-                }
-            }
-            return prev
-        });
         setTransactions(prev => {
-            const updated = [...prev, newTx];
+            const updatedTransactions = [...prev, newTx]
+            //prev.push(newTx);
 
-            if (updated.length > MAX_RETENTION_ITEMS) {
-                return updated.slice(-MAX_RETENTION_ITEMS);
+            if (updatedTransactions.length > MAX_RETENTION_ITEMS) {
+                prev.shift();
             }
-            return updated;
+            return updatedTransactions;
         });
-        setPatterns(prev => {
-            newTx.patternTypes.forEach(t => {
-                const newPattern: Pattern = {type: t, metric: "", timestamp: newTx.timestamp}
-                return [...prev, newPattern].slice(-MAX_RETENTION_ITEMS)
-            })
-
-            return prev
-        })
+        // setStats(prevState => {
+        //     if (newTx) return newTx.windowSnapshot
+        //     else return prevState
+        // })
+        // setOutliers(prev => {
+        //     if (newTx.isOutlier) {
+        //         const newOutlier: OutlierTransaction = {id: newTx.id, feePerVByte: newTx.feePerVByte, size: newTx.size}
+        //         const updatedOutliers = [...prev, newOutlier]
+        //         if (updatedOutliers.length > MAX_RETENTION_ITEMS) {
+        //             return updatedOutliers.slice(-MAX_RETENTION_ITEMS)
+        //         }
+        //     }
+        //     return prev
+        // });
+        // setPatterns(prev => {
+        //     newTx.patternTypes.forEach(t => {
+        //         const newPattern: Pattern = {type: t, metric: "", timestamp: newTx.timestamp}
+        //         return [...prev, newPattern].slice(-MAX_RETENTION_ITEMS)
+        //     })
+        //
+        //     return prev
+        // })
     };
 
     return (

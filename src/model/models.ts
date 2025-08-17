@@ -9,7 +9,7 @@ interface Transaction {
     readonly patternTypes: Set<PatternType>
     readonly feeClassification: FeeClassification
     readonly isOutlier: boolean
-    readonly windowStats: WindowStats
+    readonly windowSnapshot: WindowSnapshot
 }
 
 interface OutlierTransaction {
@@ -18,10 +18,10 @@ interface OutlierTransaction {
     readonly size: number
 }
 
-interface WindowStats {
-    avgFeePerByte: number;
-    medianFeePerByte: number;
-    totalTransactions: number;
+interface WindowSnapshot {
+    avgFeePerVByte: number;
+    medianFeePerVByte: number;
+    transactionsCount: number;
     outliersCount: number;
 }
 
@@ -42,6 +42,6 @@ export type {
     Transaction,
     OutlierChartData,
     OutlierTransaction,
-    WindowStats,
+    WindowSnapshot,
     Pattern
 };

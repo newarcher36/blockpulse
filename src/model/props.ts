@@ -1,4 +1,4 @@
-import {OutlierChartData, OutlierTransaction, Pattern, Transaction, WindowStats} from "./models";
+import {OutlierChartData, OutlierTransaction, Pattern, Transaction, WindowSnapshot} from "./models";
 import React from "react";
 
 interface HeaderProps {
@@ -8,14 +8,14 @@ interface HeaderProps {
 
 interface StatCardProps {
     title: string;
-    value: string | number;
+    value: number | string;
     unit?: string;
     icon: React.ElementType;
     colorClass: string;
 }
 
 interface StatsCardsProps {
-    stats: WindowStats;
+    stats: WindowSnapshot;
 }
 
 interface ChartsGridProps {
@@ -53,8 +53,12 @@ interface CustomTooltipProps {
 
 interface UseSSEProps {
     url: string;
-    onMessage: (data: any) => void;
-}
+    onMessage: (data: Transaction) => void;
+    // optional knobs
+    retryBaseMs?: number;   // starting backoff
+    retryMaxMs?: number;    // max backoff
+    maxRetries?: number;    // <=0 means infinite
+};
 
 export type {
     ChartsGridProps,

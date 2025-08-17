@@ -7,7 +7,7 @@ import {HeaderProps} from "../model/props";
 const Header: React.FC<HeaderProps> = ({ isConnected, connectionStatus }) => {
   return (
     <header className="header">
-      <h1 className="header__title">Fee Market Comparator</h1>
+      <h1 className="header__title">Bitcoin Fee Comparator</h1>
 
       <div className="header__status">
         <div className={`connection-indicator ${isConnected ? 'connection-indicator--connected' : 'connection-indicator--disconnected'}`}>

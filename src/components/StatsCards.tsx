@@ -19,24 +19,29 @@ const StatCard: React.FC<StatCardProps> = ({title, value, unit, icon: Icon, colo
 );
 
 const StatsCards: React.FC<StatsCardsProps> = ({stats}) => {
+    stats.transactionsCount = stats.transactionsCount || 0;
+    stats.outliersCount = stats.outliersCount || 0;
+    stats.avgFeePerVByte = stats.avgFeePerVByte || 0;
+    stats.medianFeePerVByte = stats.medianFeePerVByte || 0;
+
     const statsConfig = [
         {
-            title: 'Avg Fee/Byte',
-            value: stats.avgFeePerByte.toFixed(2),
-            unit: 'sat/byte',
+            title: 'Avg Fee/Virtual Byte',
+            value: stats.avgFeePerVByte,
+            unit: 'sat/vbyte',
             icon: TrendingUp,
             colorClass: 'blue'
         },
         {
-            title: 'Median Fee/Byte',
-            value: stats.medianFeePerByte.toFixed(2),
-            unit: 'sat/byte',
+            title: 'Median Fee/Virtual Byte',
+            value: stats.medianFeePerVByte.toFixed(2),
+            unit: 'sat/vbyte',
             icon: Activity,
             colorClass: 'green'
         },
         {
             title: 'Total Transactions',
-            value: stats.totalTransactions,
+            value: stats.transactionsCount,
             unit: 'analyzed',
             icon: Zap,
             colorClass: 'purple'
