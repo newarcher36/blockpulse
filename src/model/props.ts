@@ -3,7 +3,6 @@ import React from "react";
 
 interface HeaderProps {
     isConnected: boolean
-    connectionStatus: string
 }
 
 interface StatCardProps {

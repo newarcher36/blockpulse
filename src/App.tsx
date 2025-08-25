@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from './components/Header';
 import './styles/App.css';
-import {OutlierTransaction, Transaction, Pattern, WindowSnapshot} from "./model/models";
-import ChartsGrid from './components/ChartsGrid';
+import {OutlierTransaction, Pattern, Transaction, WindowSnapshot} from "./model/models";
 import WindowStatsCards from "./components/StatsCards";
-import ListsGrid from "./components/ListsGrid";
-import useSSE from "./hooks/useSSE";
+import {updateOutliersList, updatePatternsList, updateTransactionsList} from "./utils/utils";
+import ListsGrid from './components/ListsGrid';
+import ChartsGrid from "./components/ChartsGrid";
 
 const BlockchainFeeAnalyzer = () => {
     const MAX_RETENTION_ITEMS = 20;
+    const [isConnected, setIsConnected] = useState(false);
+
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [outliers, setOutliers] = useState<OutlierTransaction[]>([]);
     const [patterns, setPatterns] = useState<Pattern[]>([]);
@@ -19,63 +21,49 @@ const BlockchainFeeAnalyzer = () => {
       outliersCount: 0
     });
 
-    const handleSSEMessage = (newTransaction: Transaction) => {
-        updateTransactions(newTransaction);
-    }
+    useEffect(() => {
+        const eventSource = new EventSource('/api/v1/transactions/stream');
 
-    const { isConnected, connectionStatus, connect, disconnect } = useSSE({
-        url: "/api/v1/transactions/stream",
-        onMessage: handleSSEMessage
-    });
+        eventSource.onmessage = (event) => {
+            const transaction = JSON.parse(event.data);
+            updateTransactions(transaction);
+        };
 
-    // const handleReconnect = () => {
-    //     console.log('Reconnecting...');
-    //     connect();
-    // };
-    //
-    // const handleDisconnect = () => {
-    //     console.log('Disconnected...');
-    //     disconnect();
-    // };
+        eventSource.onopen = () => setIsConnected(true);
+        eventSource.onerror = () => setIsConnected(false);
+
+        return () => eventSource.close();
+    }, []);
 
     const updateTransactions = (newTx: Transaction) => {
         setTransactions(prev => {
-            const updatedTransactions = [...prev, newTx]
-            //prev.push(newTx);
-
-            if (updatedTransactions.length > MAX_RETENTION_ITEMS) {
-                prev.shift();
-            }
-            return updatedTransactions;
+            return updateTransactionsList(prev, newTx, MAX_RETENTION_ITEMS);
         });
-        // setStats(prevState => {
-        //     if (newTx) return newTx.windowSnapshot
-        //     else return prevState
-        // })
-        // setOutliers(prev => {
-        //     if (newTx.isOutlier) {
-        //         const newOutlier: OutlierTransaction = {id: newTx.id, feePerVByte: newTx.feePerVByte, size: newTx.size}
-        //         const updatedOutliers = [...prev, newOutlier]
-        //         if (updatedOutliers.length > MAX_RETENTION_ITEMS) {
-        //             return updatedOutliers.slice(-MAX_RETENTION_ITEMS)
-        //         }
-        //     }
-        //     return prev
-        // });
-        // setPatterns(prev => {
-        //     newTx.patternTypes.forEach(t => {
-        //         const newPattern: Pattern = {type: t, metric: "", timestamp: newTx.timestamp}
-        //         return [...prev, newPattern].slice(-MAX_RETENTION_ITEMS)
-        //     })
-        //
-        //     return prev
-        // })
+        setStats(prevState => {
+            if (newTx) return newTx.windowSnapshot
+            else return prevState
+        })
+        setOutliers(prev => {
+            if (newTx.isOutlier) {
+                const newOutlier: OutlierTransaction = {id: newTx.id, feePerVByte: newTx.feePerVByte, size: newTx.size}
+                return updateOutliersList(prev, newOutlier, MAX_RETENTION_ITEMS);
+            }
+            return prev
+        });
+        setPatterns(prev => {
+            newTx.patternTypes.forEach(t => {
+                const newPattern: Pattern = {type: t, metric: "", timestamp: newTx.timestamp}
+                return updatePatternsList(prev, newPattern, MAX_RETENTION_ITEMS,);
+            })
+
+            return prev
+        })
     };
 
     return (
         <div className="app">
             <div className="app__container">
-                <Header isConnected={isConnected} connectionStatus={connectionStatus}/>
+                <Header isConnected={isConnected}/>
                 <WindowStatsCards stats={stats} />
                 <ChartsGrid transactions={transactions} outliers={outliers}/>
                 <ListsGrid transactions={transactions} patterns={patterns}/>

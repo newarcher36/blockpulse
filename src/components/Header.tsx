@@ -4,7 +4,7 @@ import React from "react";
 import {HeaderProps} from "../model/props";
 
 
-const Header: React.FC<HeaderProps> = ({ isConnected, connectionStatus }) => {
+const Header: React.FC<HeaderProps> = ({ isConnected}) => {
   return (
     <header className="header">
       <h1 className="header__title">Bitcoin Fee Comparator</h1>
@@ -16,9 +16,6 @@ const Header: React.FC<HeaderProps> = ({ isConnected, connectionStatus }) => {
           ) : (
             <WifiOff className="connection-indicator__icon" />
           )}
-          <span className="connection-indicator__text">
-            {connectionStatus}
-          </span>
         </div>
       </div>
     </header>
