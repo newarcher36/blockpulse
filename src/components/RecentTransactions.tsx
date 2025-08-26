@@ -1,9 +1,9 @@
 import '../styles/RecentTransactions.css';
 import React from "react";
-import {RecentTransactionProps} from "../model/props";
+import {RecentTransactionProps, TransactionListItemProps} from "../model/props";
 import {FeeClassification} from "../model/enums";
 
-const TransactionItem: React.FC<Tra> = ({transaction}) => {
+const TransactionItem: React.FC<TransactionListItemProps> = ({transactionListItem}) => {
     const feeColorMap: Record<FeeClassification, string> = {
         [FeeClassification.EXPENSIVE]: 'transaction-item__fee--high',
         [FeeClassification.NORMAL]: 'transaction-item__fee--medium',
@@ -14,18 +14,18 @@ const TransactionItem: React.FC<Tra> = ({transaction}) => {
         <div className="transaction-item">
             <div className="transaction-item__info">
                 <p className="transaction-item__id">
-                    {transaction.id.substring(0, 30)}...
+                    {transactionListItem.id.substring(0, 30)}...
                 </p>
                 <p className="transaction-item__size">
-                    {transaction.size} bytes
+                    {transactionListItem.size} bytes
                 </p>
             </div>
             <div className="transaction-item__details">
-                <p className={`transaction-item__fee ${feeColorMap[transaction.feeClassification] || ''}`}>
-                    {transaction.feePerVByte.toFixed(2)} sat/byte
+                <p className={`transaction-item__fee ${feeColorMap[transactionListItem.feeClassification] || ''}`}>
+                    {transactionListItem.feePerVByte.toFixed(2)} sat/byte
                 </p>
                 <p className="transaction-item__timestamp">
-                    {new Date(transaction.timestamp).toLocaleTimeString()}
+                    {new Date(transactionListItem.timestamp).toLocaleTimeString()}
                 </p>
             </div>
         </div>
@@ -41,10 +41,10 @@ const RecentTransactions: React.FC<RecentTransactionProps> = ({transactionListIt
                     <p className="recent-transactions__empty">No transactions yet...</p>
                 ) : (
                     <div className="recent-transactions__list">
-                        {transactionListItems.map((transaction) => (
+                        {transactionListItems.map((transactionListItem) => (
                             <TransactionItem
-                                key={transaction.id}
-                                transaction={transaction}
+                                key={transactionListItem.id}
+                                transactionListItem={transactionListItem}
                             />
                         ))}
                     </div>

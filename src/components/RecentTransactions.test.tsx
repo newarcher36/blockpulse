@@ -2,26 +2,19 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RecentTransactions from './RecentTransactions';
-import { Transaction } from '../model/models';
+import {Transaction, TransactionListItem} from '../model/models';
 import { FeeClassification } from '../model/enums';
+import { randomUUID } from 'crypto';
 
 
-const createTransaction = (overrides: Partial<Transaction>): Transaction => ({
-  id: 'a'.repeat(64),
-  feePerVByte: 10,
+
+const createTransaction = (overrides: Partial<Transaction>): TransactionListItem => ({
+  id: randomUUID(),
   size: 250,
   timestamp: 1609459200000, // Jan 1, 2021
+  feePerVByte: 10,
   feeClassification: FeeClassification.NORMAL,
-  ...overrides,
-  totalFee: 0,
-  patternTypes: new Set(),
-  isOutlier: false,
-  windowSnapshot: {
-    avgFeePerVByte: 0,
-    medianFeePerVByte: 0,
-    transactionsCount: 0,
-    outliersCount: 0,
-  },
+  ...overrides
 });
 
 describe('RecentTransactions', () => {

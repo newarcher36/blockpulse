@@ -37,6 +37,10 @@ interface RecentTransactionProps {
     transactionListItems: TransactionListItem[];
 }
 
+interface TransactionListItemProps {
+    transactionListItem: TransactionListItem;
+}
+
 interface ListsGridProps{
     transactionsListItems: TransactionListItem[];
     patterns: Pattern[];
@@ -72,5 +76,6 @@ export type {
     HeaderProps,
     PatternsProps,
     ListsGridProps,
-    UseSSEProps
+    UseSSEProps,
+    TransactionListItemProps
 };
