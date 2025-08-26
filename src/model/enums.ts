@@ -1,5 +1,5 @@
 export enum FeeClassification {
-    CHEAP, NORMAL, EXPENSIVE
+    CHEAP = "CHEAP", NORMAL = "NORMAL", EXPENSIVE= "EXPENSIVE"
 }
 
 export enum PatternType {
