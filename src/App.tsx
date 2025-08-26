@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import Header from './components/Header';
 import './styles/App.css';
-import {OutlierTransaction, Pattern, Transaction, WindowSnapshot} from "./model/models";
+import {OutlierTransaction, Pattern, Transaction, TransactionListItem, WindowSnapshot} from "./model/models";
 import WindowStatsCards from "./components/StatsCards";
-import {updateOutliersList, updatePatternsList, updateTransactionsList} from "./utils/utils";
+import {updateOutliersList, updatePatternsList, updateTransactionListItem, updateTransactionsList} from "./utils/utils";
 import ListsGrid from './components/ListsGrid';
 import ChartsGrid from "./components/ChartsGrid";
 
 const BlockchainFeeAnalyzer = () => {
     const MAX_RETENTION_ITEMS = 20;
     const [isConnected, setIsConnected] = useState(false);
-
+    const [transactionListItems, setTransactionListItems] = useState<TransactionListItem[]>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [outliers, setOutliers] = useState<OutlierTransaction[]>([]);
     const [patterns, setPatterns] = useState<Pattern[]>([]);
@@ -39,6 +39,9 @@ const BlockchainFeeAnalyzer = () => {
         setTransactions(prev => {
             return updateTransactionsList(prev, newTx, MAX_RETENTION_ITEMS);
         });
+        setTransactionListItems(prev => {
+            return updateTransactionListItem(prev, newTx, MAX_RETENTION_ITEMS);
+        });
         setStats(prevState => {
             if (newTx) return newTx.windowSnapshot
             else return prevState
@@ -66,7 +69,7 @@ const BlockchainFeeAnalyzer = () => {
                 <Header isConnected={isConnected}/>
                 <WindowStatsCards stats={stats} />
                 <ChartsGrid transactions={transactions} outliers={outliers}/>
-                <ListsGrid transactions={transactions} patterns={patterns}/>
+                <ListsGrid transactionsListItems={transactionListItems} patterns={patterns}/>
             </div>
         </div>
     );

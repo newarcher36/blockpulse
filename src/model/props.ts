@@ -1,4 +1,11 @@
-import {OutlierChartData, OutlierTransaction, Pattern, Transaction, WindowSnapshot} from "./models";
+import {
+    OutlierChartData,
+    OutlierTransaction,
+    Pattern,
+    Transaction,
+    TransactionListItem,
+    WindowSnapshot
+} from "./models";
 import React from "react";
 
 interface HeaderProps {
@@ -26,17 +33,13 @@ interface OutliersChartProps {
     outliers: OutlierTransaction[];
 }
 
-interface TransactionProps {
-    transactions: Transaction[];
+interface RecentTransactionProps {
+    transactionListItems: TransactionListItem[];
 }
 
 interface ListsGridProps{
-    transactions: Transaction[];
+    transactionsListItems: TransactionListItem[];
     patterns: Pattern[];
-}
-
-interface TransactionItemProps {
-    transaction: Transaction;
 }
 
 interface PatternsProps {
@@ -61,12 +64,11 @@ interface UseSSEProps {
 
 export type {
     ChartsGridProps,
-    TransactionItemProps,
     OutliersChartProps,
     CustomTooltipProps,
     StatCardProps,
     StatsCardsProps,
-    TransactionProps,
+    RecentTransactionProps,
     HeaderProps,
     PatternsProps,
     ListsGridProps,

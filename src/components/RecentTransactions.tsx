@@ -1,9 +1,9 @@
 import '../styles/RecentTransactions.css';
 import React from "react";
-import {TransactionItemProps, TransactionProps} from "../model/props";
+import {RecentTransactionProps} from "../model/props";
 import {FeeClassification} from "../model/enums";
 
-const TransactionItem: React.FC<TransactionItemProps> = ({transaction}) => {
+const TransactionItem: React.FC<Tra> = ({transaction}) => {
     const feeColorMap: Record<FeeClassification, string> = {
         [FeeClassification.EXPENSIVE]: 'transaction-item__fee--high',
         [FeeClassification.NORMAL]: 'transaction-item__fee--medium',
@@ -32,16 +32,16 @@ const TransactionItem: React.FC<TransactionItemProps> = ({transaction}) => {
     );
 };
 
-const RecentTransactions: React.FC<TransactionProps> = ({transactions}) => {
+const RecentTransactions: React.FC<RecentTransactionProps> = ({transactionListItems}) => {
     return (
         <div className="recent-transactions">
             <h3 className="recent-transactions__title">Recent Transactions</h3>
             <div className="recent-transactions__content">
-                {transactions.length === 0 ? (
+                {transactionListItems.length === 0 ? (
                     <p className="recent-transactions__empty">No transactions yet...</p>
                 ) : (
                     <div className="recent-transactions__list">
-                        {transactions.map((transaction) => (
+                        {transactionListItems.map((transaction) => (
                             <TransactionItem
                                 key={transaction.id}
                                 transaction={transaction}

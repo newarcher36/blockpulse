@@ -12,6 +12,14 @@ interface Transaction {
     readonly windowSnapshot: WindowSnapshot
 }
 
+interface TransactionListItem {
+    readonly id: string
+    readonly feePerVByte: number
+    readonly size: number
+    readonly timestamp: number
+    readonly feeClassification: FeeClassification
+}
+
 interface OutlierTransaction {
     readonly id: string
     readonly feePerVByte: number
@@ -40,6 +48,7 @@ interface Pattern {
 
 export type {
     Transaction,
+    TransactionListItem,
     OutlierChartData,
     OutlierTransaction,
     WindowSnapshot,

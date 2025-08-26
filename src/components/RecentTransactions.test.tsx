@@ -5,7 +5,14 @@ import RecentTransactions from './RecentTransactions';
 import { Transaction } from '../model/models';
 import { FeeClassification } from '../model/enums';
 
-const baseTransaction = {
+
+const createTransaction = (overrides: Partial<Transaction>): Transaction => ({
+  id: 'a'.repeat(64),
+  feePerVByte: 10,
+  size: 250,
+  timestamp: 1609459200000, // Jan 1, 2021
+  feeClassification: FeeClassification.NORMAL,
+  ...overrides,
   totalFee: 0,
   patternTypes: new Set(),
   isOutlier: false,
@@ -15,21 +22,11 @@ const baseTransaction = {
     transactionsCount: 0,
     outliersCount: 0,
   },
-} as const;
-
-const createTransaction = (overrides: Partial<Transaction>): Transaction => ({
-  id: 'a'.repeat(64),
-  feePerVByte: 10,
-  size: 250,
-  timestamp: 1609459200000, // Jan 1, 2021
-  feeClassification: FeeClassification.NORMAL,
-  ...baseTransaction,
-  ...overrides,
 });
 
 describe('RecentTransactions', () => {
   it('renders empty state when there are no transactions', () => {
-    render(<RecentTransactions transactions={[]} />);
+    render(<RecentTransactions transactionListItems={[]} />);
     expect(screen.getByText('No transactions yet...')).toBeInTheDocument();
   });
 
@@ -38,7 +35,7 @@ describe('RecentTransactions', () => {
       feePerVByte: 12.3456,
       feeClassification: FeeClassification.EXPENSIVE,
     });
-    render(<RecentTransactions transactions={[tx]} />);
+    render(<RecentTransactions transactionListItems={[tx]} />);
 
     const displayedId = tx.id.substring(0, 30) + '...';
     expect(screen.getByText(displayedId)).toBeInTheDocument();
@@ -56,7 +53,7 @@ describe('RecentTransactions', () => {
       createTransaction({ feePerVByte: 3, feeClassification: FeeClassification.EXPENSIVE }),
     ];
 
-    render(<RecentTransactions transactions={txs} />);
+    render(<RecentTransactions transactionListItems={txs} />);
 
     expect(screen.getByText('1.00 sat/byte')).toHaveClass('transaction-item__fee--low');
     expect(screen.getByText('2.00 sat/byte')).toHaveClass('transaction-item__fee--medium');

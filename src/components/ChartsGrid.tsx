@@ -8,7 +8,7 @@ import { ChartsGridProps } from '../model/props';
 const ChartsGrid: React.FC<ChartsGridProps> = ({transactions, outliers}) => {
     return (
     <div className="charts-grid">
-      <FeeChart transactions={transactions} />
+      <FeeChart transactionListItems={transactions} />
       <OutliersChart outliers={outliers} />
     </div>
   );
