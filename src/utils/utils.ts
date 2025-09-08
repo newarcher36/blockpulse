@@ -5,13 +5,7 @@ export const updateTransactionsList = (
     newTransaction: Transaction,
     maxRetentionItems: number
 ): Transaction[] => {
-    const updatedTransactions = [...currentTransactions, newTransaction];
-
-    if (updatedTransactions.length > maxRetentionItems) {
-        updatedTransactions.shift();
-    }
-
-    return updatedTransactions;
+    return [...currentTransactions, newTransaction].slice(maxRetentionItems);
 };
 
 export const updateTransactionListItem = (
@@ -19,13 +13,7 @@ export const updateTransactionListItem = (
     newTransaction: TransactionListItem,
     maxRetentionItems: number
 ): TransactionListItem[] => {
-    const updatedTransactions = [...currentTransactions, newTransaction];
-
-    if (updatedTransactions.length > maxRetentionItems) {
-        updatedTransactions.shift();
-    }
-
-    return updatedTransactions;
+    return [...currentTransactions, newTransaction].slice(maxRetentionItems);
 };
 
 export const updateOutliersList = (
@@ -33,25 +21,13 @@ export const updateOutliersList = (
     outlierTransaction: OutlierTransaction,
     maxRetentionItems: number
 ): OutlierTransaction[] => {
-    const updatedOutliers = [...outlierTransactions, outlierTransaction];
-
-    if (updatedOutliers.length > maxRetentionItems) {
-        updatedOutliers.shift();
-    }
-
-    return updatedOutliers;
+    return [...outlierTransactions, outlierTransaction].slice(maxRetentionItems);
 };
 
 export const updatePatternsList = (
     patterns: Pattern[],
-    pattern: Pattern,
+    newPatterns: Pattern[],
     maxRetentionItems: number
 ): Pattern[] => {
-    const updatedPatterns = [...patterns, pattern];
-
-    if (updatedPatterns.length > maxRetentionItems) {
-        updatedPatterns.shift();
-    }
-
-    return updatedPatterns;
+    return [...patterns, ...newPatterns].slice(maxRetentionItems);
 };

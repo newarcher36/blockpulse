@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RecentTransactions from './RecentTransactions';
 import {Transaction, TransactionListItem} from '../model/models';
-import { FeeClassification } from '../model/enums';
+import { PriceTier } from '../model/enums';
 import { randomUUID } from 'crypto';
 
 
@@ -13,7 +13,7 @@ const createTransaction = (overrides: Partial<Transaction>): TransactionListItem
   size: 250,
   timestamp: 1609459200000, // Jan 1, 2021
   feePerVByte: 10,
-  feeClassification: FeeClassification.NORMAL,
+  feeClassification: PriceTier.NORMAL,
   ...overrides
 });
 
@@ -26,7 +26,7 @@ describe('RecentTransactions', () => {
   it('renders transaction details correctly', () => {
     const tx = createTransaction({
       feePerVByte: 12.3456,
-      feeClassification: FeeClassification.EXPENSIVE,
+      feeClassification: PriceTier.EXPENSIVE,
     });
     render(<RecentTransactions transactionListItems={[tx]} />);
 
@@ -41,9 +41,9 @@ describe('RecentTransactions', () => {
 
   it('applies correct fee classification classes', () => {
     const txs = [
-      createTransaction({ feePerVByte: 1, feeClassification: FeeClassification.CHEAP }),
-      createTransaction({ feePerVByte: 2, feeClassification: FeeClassification.NORMAL }),
-      createTransaction({ feePerVByte: 3, feeClassification: FeeClassification.EXPENSIVE }),
+      createTransaction({ feePerVByte: 1, feeClassification: PriceTier.CHEAP }),
+      createTransaction({ feePerVByte: 2, feeClassification: PriceTier.NORMAL }),
+      createTransaction({ feePerVByte: 3, feeClassification: PriceTier.EXPENSIVE }),
     ];
 
     render(<RecentTransactions transactionListItems={txs} />);

@@ -1,13 +1,14 @@
 import '../styles/RecentTransactions.css';
 import React from "react";
 import {RecentTransactionProps, TransactionListItemProps} from "../model/props";
-import {FeeClassification} from "../model/enums";
+import {PriceTier} from "../model/enums";
 
 const TransactionItem: React.FC<TransactionListItemProps> = ({transactionListItem}) => {
-    const feeColorMap: Record<FeeClassification, string> = {
-        [FeeClassification.EXPENSIVE]: 'transaction-item__fee--high',
-        [FeeClassification.NORMAL]: 'transaction-item__fee--medium',
-        [FeeClassification.CHEAP]: 'transaction-item__fee--low',
+    const feePriceTierColorMap: Record<PriceTier, string> = {
+        [PriceTier.EXPENSIVE]: 'transaction-item__fee--high',
+        [PriceTier.NORMAL]: 'transaction-item__fee--medium',
+        [PriceTier.CHEAP]: 'transaction-item__fee--low',
+        [PriceTier.OUTSIDE_MARKET]: 'transaction-item__fee--low',
     };
 
     return (
@@ -21,7 +22,7 @@ const TransactionItem: React.FC<TransactionListItemProps> = ({transactionListIte
                 </p>
             </div>
             <div className="transaction-item__details">
-                <p className={`transaction-item__fee ${feeColorMap[transactionListItem.feeClassification] || ''}`}>
+                <p className={`transaction-item__fee ${feePriceTierColorMap[transactionListItem.feeClassification] || ''}`}>
                     {transactionListItem.feePerVByte.toFixed(2)} sat/byte
                 </p>
                 <p className="transaction-item__timestamp">

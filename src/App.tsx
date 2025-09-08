@@ -54,12 +54,10 @@ const BlockchainFeeAnalyzer = () => {
             return prev
         });
         setPatterns(prev => {
-            newTx.patternTypes.forEach(t => {
-                const newPattern: Pattern = {type: t, metric: "", timestamp: newTx.timestamp}
-                return updatePatternsList(prev, newPattern, MAX_RETENTION_ITEMS,);
-            })
+            const patterns: Pattern[] = Array.from(newTx.patternTypes)
+                .map((p) => ({type: p, metric: "", timestamp: newTx.timestamp}))
 
-            return prev
+            return patterns.length ? updatePatternsList(prev, patterns, MAX_RETENTION_ITEMS) : prev;
         })
     };
 

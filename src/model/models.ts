@@ -1,4 +1,4 @@
-import {FeeClassification, PatternType} from "./enums"
+import {PriceTier, PatternType} from "./enums"
 
 interface Transaction {
     readonly id: string
@@ -7,7 +7,7 @@ interface Transaction {
     readonly size: number
     readonly timestamp: number
     readonly patternTypes: Set<PatternType>
-    readonly feeClassification: FeeClassification
+    readonly feeClassification: PriceTier   
     readonly isOutlier: boolean
     readonly windowSnapshot: WindowSnapshot
 }
@@ -17,7 +17,7 @@ interface TransactionListItem {
     readonly feePerVByte: number
     readonly size: number
     readonly timestamp: number
-    readonly feeClassification: FeeClassification
+    readonly feeClassification: PriceTier
 }
 
 interface OutlierTransaction {
