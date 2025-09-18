@@ -1,0 +1,184 @@
+.fee-price-classification {
+  background-color: var(--color-surface-primary);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border);
+  height: fit-content;
+}
+
+.fee-price-classification__title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.fee-price-classification__content {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.fee-price-classification__empty {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  padding: var(--spacing-xl) 0;
+  font-style: italic;
+}
+
+.fee-price-classification__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.fee-price-classification-item {
+  display: grid;
+  grid-template-columns: 1fr auto 128px; /* stable layout: info | label | details */
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+  transition: var(--transition-normal);
+}
+
+.fee-price-classification-item:hover {
+  border-color: var(--color-border-light);
+  transform: translateX(2px);
+}
+
+.fee-price-classification-item__info {
+  flex: 1;
+  min-width: 0; /* Allow text truncation */
+}
+
+.fee-price-classification-item__id {
+  font-size: var(--font-size-sm);
+  font-family: 'Courier New', monospace;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+}
+
+.fee-price-classification-item__size {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.fee-price-classification-item__details {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.fee-price-classification-item__tier {
+  margin: 0;
+  justify-self: end; /* anchor next to details */
+}
+
+.fee-price-classification-item__tier-label {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+/* Reuse existing fee color classes to drive background color */
+.fee-price-classification-item__tier-label.fee-price-classification-item__fee--high {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+.fee-price-classification-item__tier-label.fee-price-classification-item__fee--medium {
+  background-color: var(--color-warning);
+  color: #ffffff;
+}
+
+.fee-price-classification-item__tier-label.fee-price-classification-item__fee--low {
+  background-color: var(--color-success);
+  color: #ffffff;
+}
+
+.fee-price-classification-item__tier-label.fee-price-classification-item__fee--abnormal {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+.fee-price-classification-item__fee {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--spacing-xs);
+  color: #ffffff;
+}
+
+.fee-price-classification-item__fee--high {
+  color: var(--color-danger);
+}
+
+.fee-price-classification-item__fee--medium {
+  color: var(--color-warning);
+}
+
+.fee-price-classification-item__fee--low {
+  color: var(--color-success);
+}
+
+.fee-price-classification-item__fee--abnormal {
+  color: var(--color-accent);
+}
+
+.fee-price-classification-item__timestamp {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* Custom scrollbar */
+.fee-price-classification__content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.fee-price-classification__content::-webkit-scrollbar-track {
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--border-radius-sm);
+}
+
+.fee-price-classification__content::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-light);
+  border-radius: var(--border-radius-sm);
+}
+
+.fee-price-classification__content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-muted);
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .fee-price-classification {
+    padding: var(--spacing-md);
+  }
+
+  .fee-price-classification__content {
+    max-height: 300px;
+  }
+
+  .fee-price-classification-item {
+    display: flex; /* override grid for stacked mobile layout */
+    padding: var(--spacing-sm);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .fee-price-classification-item__details {
+    text-align: left;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
