@@ -7,13 +7,13 @@ import {PatternMetric} from "../model/enums";
 const formatMetricLabel = (metric: PatternMetric): string => {
     switch (metric) {
         case PatternMetric.UPPER_TUKEY_FENCE:
-            return 'Upper threshold crossed';
+            return 'Fee upper threshold crossed';
         case PatternMetric.LOWER_TUKEY_FENCE:
-            return 'Lower threshold crossed';
+            return 'Fee lower threshold crossed';
         case PatternMetric.MEMPOOL_SIZE:
             return 'Mempool congested with size';
         case PatternMetric.MEMPOOL_RECOMMENDED_FEE_PER_VBYTE:
-            return 'Higher than network recommended fee';
+            return 'Fee higher than network recommended price';
         default:
             return String(metric).replaceAll('_', ' ').toLowerCase();
     }

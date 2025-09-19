@@ -30,7 +30,7 @@ const OutliersChart: React.FC<OutliersChartProps> = ({outliers}) => {
     return (
         <div className="chart-container">
             <h3 className="chart-container__title">
-              Fee Outliers: Wath transactions with unusually high or low fees
+              Fee Outliers: Watch transactions with unusually high or low fees
               <span
                 className="title-info__icon"
                 data-tooltip={
