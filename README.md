@@ -4,6 +4,20 @@ Lightweight React dashboard to visualize Bitcoin transaction fees in real time.
 It connects to a backend over Server‑Sent Events (SSE) and presents live charts,
 stats, and lists to help you quickly understand current fee dynamics.
 
+## Live Demo
+
+- See the app running on AWS: https://d3q8hndklwuv8q.cloudfront.net
+
+### Intended Hosting (S3 + CloudFront)
+
+- Static assets are built with `react-scripts build` and uploaded to an Amazon S3 bucket configured for static website hosting.
+- Amazon CloudFront sits in front of S3 to provide global edge caching, HTTPS, and fast delivery.
+- Typical setup includes:
+  - S3 bucket with public-read access via an Origin Access Control/Identity (no direct public bucket access).
+  - CloudFront distribution with the S3 bucket as origin, default root object set to `index.html`.
+  - Error responses mapping 403/404 to `index.html` to support client-side routing.
+  - Optional cache invalidations after deployments for instant updates.
+
 ## Features
 
 - Live connection indicator (connected/disconnected).
@@ -71,4 +85,3 @@ docker compose up --build
 This repository contains only the UI. It assumes a running backend that
 emits SSE events at the configured endpoint. If the stream is unavailable,
 the connection indicator shows “disconnected” and charts/lists will remain empty.
-
